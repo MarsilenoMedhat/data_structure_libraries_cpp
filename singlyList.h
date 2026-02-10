@@ -16,8 +16,6 @@ private:
     _Node* _Current;
     int _Count = 0;
 
-    // Optimized search assuming temporal locality.
-    // Average case improves when recently accessed nodes are reused.
     // finds node by the val and return the node once we find it, and return nullptr if it doesn't exist.
     _Node* _FindNode(T searchVal) {
         
@@ -26,9 +24,8 @@ private:
             return nullptr;
         }
 
-        _Node* tempNode = _Current;
+        _Node* tempNode = _Head;
 
-        // check from the current to the tail.
         while (tempNode != nullptr) {
             if (tempNode->_Value == searchVal) {
                 return tempNode;
@@ -36,16 +33,6 @@ private:
             tempNode = tempNode->_Next;
         }
 
-        // check from head to current if we didn't find.
-        if (_Current != _Head) {
-            tempNode = _Head;
-            while(tempNode != _Current) {
-                if (tempNode->_Value == searchVal) {
-                    return tempNode;
-                }
-                tempNode = tempNode->_Next;
-            }
-        }
         return nullptr;
     }
 
@@ -235,7 +222,7 @@ private:
         }
 
         _Node* tempCurrent = _Head;
-        while (tempCurrent->_Next->_Next != nullptr) {
+        while (tempCurrent->_Next != _Tail) {
             tempCurrent = tempCurrent->_Next;
         }
         delete tempCurrent->_Next;
@@ -289,6 +276,11 @@ private:
 
     // delete the full list.
     void deleteFullList() {
+
+        if (_Head == nullptr) {
+            return;
+        }
+        
         _Node* tempNode = nullptr;
         while (_Head != nullptr) {
             tempNode = _Head;
@@ -299,22 +291,6 @@ private:
         _Current = nullptr;
         _Tail = nullptr;
         _Count = 0;
-    }
-
-    // print the full list.
-    void printFullList() {
-
-        // check if the list is empty or not.
-        if (_Head == nullptr) {
-            std::cout << "\nThe linked list is empty.\n\n";
-            return;
-        }
-        
-        _Node* tempNode = _Head;
-        while (tempNode != nullptr) {
-            std::cout << tempNode->_Value <<  "  ";
-            tempNode = tempNode->_Next;
-        }
     }
 
     ~singlyList() {

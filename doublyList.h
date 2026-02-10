@@ -16,8 +16,6 @@ private:
     _Node* _Current;
     int _Count = 0;
 
-    // Optimized search assuming temporal locality.
-    // Average case improves when recently accessed nodes are reused.
     // finds node by the val and return the node once we find it, and return nullptr if it doesn't exist.
     _Node* _FindNode(T searchVal) {
 
@@ -26,27 +24,15 @@ private:
             return nullptr;
         }
         
-        _Node* tempNode = _Current;
+        _Node* tempNode = _Head;
 
-        // check from current to tail.
         while (tempNode != nullptr) {
-            if (tempNode->Value == searchVal) {
+            if (tempNode->_Value == searchVal) {
                 return tempNode;
             }
-            tempNode = tempNode->Next;
+            tempNode = tempNode->_Next;
         }
 
-        // check from current to head and skiping current because we checked it already.
-        if (_Current->Previous != nullptr) {
-            tempNode = _Current->_Previous;
-
-            while (tempNode != nullptr) {
-                if (tempNode->Value == searchVal) {
-                    return tempNode;
-                }
-                tempNode = tempNode->Previous;
-            }
-        }
         return nullptr;
     }    
 
@@ -104,7 +90,7 @@ public:
     // check if the value exists or not and set is as the current.
     bool setAsCurrent(T Val) {
         _Node* tempcurrent = _FindNode(Val);
-        if (Val != nullptr) {
+        if (tempcurrent != nullptr) {
             _Current = tempcurrent;
             return true;
         }
@@ -125,7 +111,7 @@ public:
             _Current = newNode;
         }
         else {
-            newNode->Next = _Head;
+            newNode->_Next = _Head;
             _Head->_Previous = newNode;
             _Head = newNode;
         }
@@ -171,18 +157,18 @@ public:
             return false;
         }
 
-        _Node* newNode = new _Node;
-        newNode->Value = newVal;
-        
         // check if the previos node is the last node in the list or not.
-        if (previousNode->Next == nullptr) {
+        if (previousNode->_Next == nullptr) {
             insertAtEnd(newVal);
         } 
         else {
-            newNode->Next = previousNode->Next;
-            newNode->Previous = previousNode;
-            previousNode->Next->Previous = newNode;
-            previousNode->Next = newNode;
+            _Node* newNode = new _Node;
+            newNode->_Value = newVal;
+
+            newNode->_Next = previousNode->_Next;
+            newNode->_Previous = previousNode;
+            previousNode->_Next->_Previous = newNode;
+            previousNode->_Next = newNode;
         }
         _Count++;
         return true;
@@ -291,6 +277,11 @@ public:
     
     // delete the full list.
     void deleteFullList() {
+
+        if (_Head == nullptr) {
+            return;
+        }
+
         _Node* tempNode = nullptr;
         while (_Head != nullptr) {
             tempNode = _Head;
@@ -301,38 +292,6 @@ public:
         _Current = nullptr;
         _Tail = nullptr;
         _Count = 0;
-    }
-
-    // print the list from head to tail.
-    void printListFromHeadToTail() {
-        
-        // check if the list is empty or not.
-        if (_Head == nullptr) {
-            std::cout << "\nThe linked list is empty.\n\n";
-            return;
-        }
-        
-        _Node* tempNode = _Head;
-        while (tempNode != nullptr) {
-            std::cout << tempNode->_Value <<  "  ";
-            tempNode = tempNode->_Next;
-        }
-    }
-
-    // print the list from tail to head.
-    void printListFromTailToHead() {
-
-        // check if the list is empty or not.
-        if (_Tail == nullptr) {
-            std::cout << "\nThe linked list is empty.\n\n";
-            return;
-        }
-        
-        _Node* tempNode = _Tail;
-        while (tempNode != nullptr) {
-            std::cout << tempNode->_Value <<  "  ";
-            tempNode = tempNode->_Previous;
-        }
     }
 
     ~doublyList() {

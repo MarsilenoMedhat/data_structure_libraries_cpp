@@ -17,7 +17,7 @@ private:
     _Node* _Current;
     int _Count = 0;
 
-    _Node* _FindNode(T searchVal) {
+    _Node* _FindNode(T searchVal) const {
         
         // check if the list is empty or not.
         if (_Head == nullptr) {
@@ -40,7 +40,7 @@ public:
     CircularSinglyList(T value) {
         _Node* newNode = new _Node;
         newNode->_Value = value;
-        newNode->_Next = nullptr;
+        newNode->_Next = newNode;
 
         _Current = newNode;
         _Head = newNode;
@@ -245,6 +245,10 @@ public:
     void deleteFullList() {
         _Node* tempNode = nullptr;
 
+        if (_Head == nullptr) {
+            return;
+        }
+
         // changed the next in the tail to break the circle.
         _Tail->_Next = nullptr;
 
@@ -257,22 +261,6 @@ public:
         _Current = nullptr;
         _Tail = nullptr;
         _Count = 0;
-    }
-
-    // print the full list.
-    void printFullList() {
-
-        // check if the list is empty or not.
-        if (_Head == nullptr) {
-            std::cout << "\nThe linked list is empty.\n\n";
-            return;
-        }
-        _Node* tempNode = _Head;
-        
-        do {
-            std::cout << tempNode->_Value <<  "  ";
-            tempNode = tempNode->_Next;
-        } while (tempNode != _Head);
     }
 
     ~CircularSinglyList() {
@@ -306,7 +294,7 @@ private:
 
         _Node* tempNode = _Head;
         do {
-            if (tempNode->Value == searchVal) {
+            if (tempNode->_Value == searchVal) {
                 return tempNode;
             }
             tempNode = tempNode->Next;            
@@ -318,12 +306,14 @@ private:
 public:
 
     CircularDoublyList(T val) {
-        _Node* Node = new _Node;
-        Node->_Value = val;
+        _Node* newNode = new _Node;
+        newNode->_Value = val;
+        newNode->_Next = NewNode;
+        newNode->_Previous = NewNode;
 
-        _Current = Node;
-        _Head = Node;
-        _Tail = Node;
+        _Current = newNode;
+        _Head = newNode;
+        _Tail = newNode;
         _Count++;
     }
 
@@ -370,7 +360,7 @@ public:
     // check if the value exists or not and set is as the current.
     bool setAsCurrent(T Val) {
         _Node* tempcurrent = _FindNode(Val);
-        if (Val != nullptr) {
+        if (tempcurrent != nullptr) {
             _Current = tempcurrent;
             return true;
         }
@@ -514,40 +504,13 @@ public:
         return true;
     }
 
-    // print the list from head to tail.
-    void printListFromHeadToTail() {
-        
-        // check if the list is empty or not.
-        if (_Head == nullptr) {
-            std::cout << "\nThe linked list is empty.\n\n";
-            return;
-        }
-        
-        _Node* tempNode = _Head;
-        do {
-            std::cout << tempNode->_Value <<  "  ";
-            tempNode = tempNode->_Next;
-        } while (tempNode != _Head);
-    }
-
-    // print the list from tail to head.
-    void printListFromTailToHead() {
-
-        // check if the list is empty or not.
-        if (_Tail == nullptr) {
-            std::cout << "\nThe linked list is empty.\n\n";
-            return;
-        }
-        
-        _Node* tempNode = _Tail;
-        do {
-            std::cout << tempNode->_Value <<  "  ";
-            tempNode = tempNode->_Previous;
-        } while (tempNode != _Tail);
-    }
-
     // delete the full list.
     void deleteFullList() {
+
+        if (_Head == nullptr) {
+            return;
+        }
+
         _Node* tempNode = nullptr;
         while (_Head != _Tail) {
             tempNode = _Head;
