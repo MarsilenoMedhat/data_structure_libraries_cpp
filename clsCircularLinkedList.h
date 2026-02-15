@@ -2,9 +2,8 @@
 #include <optional>
 
 template <typename T>
-class clsCircularSinglyList {
+class clsCircularSinglyLinkedList {
 
-    
 private:
 
     struct _Node {
@@ -35,73 +34,8 @@ private:
         return nullptr;
     }
 
-public:
-
-    clsCircularSinglyList(T value) {
-        _Node* newNode = new _Node;
-        newNode->_Value = value;
-        newNode->_Next = newNode;
-
-        _Current = newNode;
-        _Head = newNode;
-        _Tail = newNode;
-        _Count++;
-    }
-    
-    clsCircularSinglyList() {
-        _Current = nullptr;
-        _Head = nullptr;
-        _Tail = nullptr;
-    }
-
-    // return current value if it's not empty.
-    std::optional<T> getCurrent() const {
-        if (_Current == nullptr) {
-            return std::nullopt;
-        }
-        return _Current->_Value;
-    }
-
-    
-    
-    // return head value if it's not empty.
-    std::optional<T> getHead() const {
-        if (_Head == nullptr) {
-            return std::nullopt;
-        }
-        return _Head->_Value;
-    }
-    
-    // return tail value if it's not empty.
-    std::optional<T> getTail() const {
-        if (_Tail == nullptr) {
-            return std::nullopt;
-        }
-        return _Tail->_Value;
-    }
-
-    // return the number of nodes in the list.
-    int getSize () const {
-        return _Count;
-    }
-
-    // check the existance of node by the value.
-    bool find(T searchVal) {
-        return _FindNode(searchVal) != nullptr;
-    }
-    
-    // check the existance of node by the value and set it as current.
-    bool setAsCurrent(T  Val) {
-        _Node* currentNode = _FindNode(Val);
-        if (currentNode != nullptr) {
-            _Current = currentNode;
-            return true;
-        }
-        return false;
-    }
-
     // insert at the beginning or the end of the list.
-    bool insertAtTheBeginningOrEnd(T newVal, bool atBeginning) {
+    bool _InsertAtTheBeginningOrEnd(T newVal, bool atBeginning) {
         _Node* newNode = new _Node;
         newNode->_Value = newVal;
 
@@ -127,7 +61,7 @@ public:
     }
 
     // insert after a specific node by check the previous node by value.
-    bool insertAfter(T preVal, T newVal) {
+    bool _InsertAfter(T preVal, T newVal) {
 
         // check if the list id empty or not.
         if (_Head == nullptr) {
@@ -155,7 +89,7 @@ public:
     }
 
     // delete the first or last node.
-    bool deleteFirstOrLastNode(bool deleteFirst) {
+    bool _DeleteFirstOrLastNode(bool deleteFirst) {
 
         // check if the list is empty or not.
         if (_Head == nullptr) {
@@ -202,7 +136,7 @@ public:
     }
 
     // delete a specific node.
-    bool deleteNode(T deleteVal) {
+    bool _DeleteNode(T deleteVal) {
 
         // check if the list is empty or not.
         if (_Head == nullptr) {
@@ -244,7 +178,7 @@ public:
     }
 
     // delete the full list.
-    void deleteFullList() {
+    void _DeleteFullList() {
         _Node* tempNode = nullptr;
 
         if (_Head == nullptr) {
@@ -265,6 +199,98 @@ public:
         _Count = 0;
     }
 
+public:
+
+    clsCircularSinglyList(T value) {
+        _Node* newNode = new _Node;
+        newNode->_Value = value;
+        newNode->_Next = newNode;
+
+        _Current = newNode;
+        _Head = newNode;
+        _Tail = newNode;
+        _Count++;
+    }
+    
+    clsCircularSinglyList() {
+        _Current = nullptr;
+        _Head = nullptr;
+        _Tail = nullptr;
+    }
+
+    // return current value if it's not empty.
+    std::optional<T> getCurrent() const {
+        if (_Current == nullptr) {
+            return std::nullopt;
+        }
+        return _Current->_Value;
+    }
+    
+    // return head value if it's not empty.
+    std::optional<T> getHead() const {
+        if (_Head == nullptr) {
+            return std::nullopt;
+        }
+        return _Head->_Value;
+    }
+    
+    // return tail value if it's not empty.
+    std::optional<T> getTail() const {
+        if (_Tail == nullptr) {
+            return std::nullopt;
+        }
+        return _Tail->_Value;
+    }
+
+    // return the number of nodes in the list.
+    int getSize () const {
+        return _Count;
+    }
+
+    // check the existance of node by the value.
+    bool find(T searchVal) {
+        return _FindNode(searchVal) != nullptr;
+    }
+    
+    // check the existance of node by the value and set it as current.
+    bool setAsCurrent(T  Val) {
+        _Node* currentNode = _FindNode(Val);
+        if (currentNode != nullptr) {
+            _Current = currentNode;
+            return true;
+        }
+        return false;
+    }
+
+    bool insertAtBeginning(T newVal) {
+        return _InsertAtTheBeginningOrEnd(newVal, true);
+    }
+
+    bool insertAtEnd(T newVal, bool atBeginning) {
+        return _InsertAtTheBeginningOrEnd(newVal, false);
+    }
+
+    bool insertAfter(T preVal, T newVal) {
+        return _InsertAfter(preVal, newVal);
+    }
+
+    bool deleteFirstOrLastNode() {
+        return _DeleteFirstOrLastNode(true);
+    }
+
+    bool deleteFirstOrLastNode() {
+        return _DeleteFirstOrLastNode(false);
+    }
+
+    bool deleteNode(T deleteVal) {
+        return _DeleteNode(deleteVal);
+    }
+
+    void deleteFullList() {
+        return _DeleteFullList();
+    }
+
+
     ~clsCircularSinglyList() {
         deleteFullList();
     } 
@@ -272,7 +298,7 @@ public:
 
 
 template <typename T>
-class CircularDoublyList {
+class clsCircularDblLinkedList {
 
 private:
     struct _Node {
