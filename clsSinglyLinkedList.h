@@ -2,7 +2,7 @@
 #include <optional>
 
 template <typename T>
-class singlyList {
+class clsSinglyLinkedList {
 
 private:
 
@@ -18,7 +18,7 @@ private:
 
     // check if the list is empty or not by checking the head and the tail
     bool _IsListEmpty() {
-        return _Head == nullptr;
+        return _Head == nullptr && _Size == 0;
     }
 
     // check if the node is empty or not
@@ -253,7 +253,7 @@ private:
 
     public:
     
-    singlyList(T value) {
+    clsSinglyLinkedList(T value) {
         _Node* newNode = new _Node;
         newNode->_Value = value;
         newNode->_Next = nullptr;
@@ -264,7 +264,7 @@ private:
         _Size++;
     }
     
-    singlyList() {
+    clsSinglyLinkedList() {
         _Current = nullptr;
         _Head = nullptr;
         _Tail = nullptr;
@@ -314,6 +314,10 @@ private:
         return false;
     }
 
+    bool isEmpty() {
+        return _IsListEmpty();
+    }
+
     bool insertAtTheBeginning(T newVal) {
         return _InsertAtTheBeginning(newVal);
     }
@@ -342,7 +346,7 @@ private:
         _DeleteFullList();
     }
 
-    ~singlyList() {
+    ~clsSinglyLinkedList() {
         _DeleteFullList();
     }
 };
