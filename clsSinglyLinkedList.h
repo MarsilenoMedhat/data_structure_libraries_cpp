@@ -14,7 +14,7 @@ private:
     _Node* _Head;
     _Node* _Tail;
     _Node* _Current;
-    int _Count = 0;
+    int _Size = 0;
 
     // check if the list is empty or not by checking the head and the tail
     bool _IsListEmpty() {
@@ -86,7 +86,7 @@ private:
             newNode = _CreateNewNode(newVal, _Head);
             _Head = newNode;
         }
-        _Count++;
+        _Size++;
         return true;
     }
 
@@ -103,7 +103,7 @@ private:
             _Tail->_Next = newNode;
             _Tail = newNode;
         }
-        _Count++;
+        _Size++;
         return true;
     }
 
@@ -129,7 +129,7 @@ private:
         
         _Node* newNode = _CreateNewNode(newVal, tempNode->_Next);
         tempNode->_Next = newNode;
-        _Count++;
+        _Size++;
         return true;
     }
 
@@ -144,7 +144,7 @@ private:
         // check if the list has one node or not.
         if (_Head == _Tail) {
             _DeleteSingleNodeList();
-            _Count--;
+            _Size--;
             return true;
         }
 
@@ -156,7 +156,7 @@ private:
         _Node* nodeToDelete = _Head;
         _Head = _Head->_Next;
         delete nodeToDelete;
-        _Count--;
+        _Size--;
         return true;
     }
 
@@ -171,7 +171,7 @@ private:
         // check if the list has one node or not.
         if (_Head == _Tail) {
             _DeleteSingleNodeList();
-            _Count--;
+            _Size--;
             return true;
         }
         
@@ -187,7 +187,7 @@ private:
         delete tempCurrent->_Next;
         tempCurrent->_Next = nullptr;
         _Tail = tempCurrent;
-        _Count--;
+        _Size--;
         return true;
     }
 
@@ -228,7 +228,7 @@ private:
 
         preNode->_Next = nodeToDelete->_Next;
         delete nodeToDelete;
-        _Count--;
+        _Size--;
         return true;
     }
 
@@ -248,7 +248,7 @@ private:
         _Head = nullptr;
         _Current = nullptr;
         _Tail = nullptr;
-        _Count = 0;
+        _Size = 0;
     }
 
     public:
@@ -261,7 +261,7 @@ private:
         _Current = newNode;
         _Head = newNode;
         _Tail = newNode;
-        _Count++;
+        _Size++;
     }
     
     singlyList() {
@@ -296,7 +296,7 @@ private:
 
     // return the number of nodes in the list.
     int getSize () const {
-        return _Count;
+        return _Size;
     }
     
     // check the existance of node by the value.
