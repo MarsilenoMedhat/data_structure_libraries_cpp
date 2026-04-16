@@ -342,7 +342,7 @@ private:
         return _DeleteNode(deleteVal);
     }
 
-    void deleteFullList() {
+    void clear() {
         _DeleteFullList();
     }
 
