@@ -230,7 +230,6 @@ private:
         if (_IsListEmpty()) {
             return false;
         }
-
         // check if the node has 1 element.
         if (_Head == _Tail) {
             return false;
@@ -238,7 +237,6 @@ private:
 
         _Node* newHead = _Tail;
         _Tail = _Head;
-
         do {
             _ReverseNode(_Head);
             _Head = _Head->_Previous;
@@ -356,6 +354,10 @@ public:
 
     void clear() {
         return _DeleteFullList();
+    }
+
+    bool isEmpty() {
+        return _IsListEmpty();
     }
 
     bool reverse() {
