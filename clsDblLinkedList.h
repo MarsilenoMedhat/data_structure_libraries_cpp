@@ -16,7 +16,7 @@ private:
     _Node* _Head;
     _Node* _Tail;
     _Node* _Current;
-    unsigned int _Count = 0;
+    unsigned int _Size = 0;
 
     // finds node by the val and return the node once we find it, and return nullptr if it doesn't exist.
     _Node* _FindNode(T searchVal) const {
@@ -56,7 +56,7 @@ private:
             _Head->_Previous = newNode;
             _Head = newNode;
         }
-        _Count++;
+        _Size++;
         return true;
     }
     
@@ -78,7 +78,7 @@ private:
             _Tail->_Next = newNode;
             _Tail = newNode;
         }
-        _Count++;
+        _Size++;
         return true;
     }
 
@@ -110,7 +110,7 @@ private:
             newNode->_Previous = previousNode;
             previousNode->_Next->_Previous = newNode;
             previousNode->_Next = newNode;
-            _Count++;
+            _Size++;
         }
         return true;
     }
@@ -138,7 +138,7 @@ private:
             delete _Head->_Previous;
             _Head->_Previous = nullptr;
         }
-        _Count--;
+        _Size--;
         return true;
     }
 
@@ -165,7 +165,7 @@ private:
             delete _Tail->_Next;
             _Tail->_Next = nullptr;
         }
-        _Count--;
+        _Size--;
         return true;
     }
 
@@ -212,10 +212,42 @@ private:
         nodeToDelete->_Previous->_Next = nodeToDelete->_Next;
         nodeToDelete->_Next->_Previous = nodeToDelete->_Previous;
         delete nodeToDelete;
-        _Count--;
+        _Size--;
         return true;
     }
-    
+
+    bool _IsListEmpty() {
+        return (_Size == 0);
+    }
+
+    void _ReverseNode(_Node* node) {
+        _Node* tempNode = node->_Next;
+        node->_Next = node->_Previous;
+        node->_Previous = tempNode;
+    }
+
+    bool _Reverse() {
+
+        // check if the node is empty.
+        if (_IsListEmpty()) {
+            return false;
+        }
+        // check if the node has 1 element.
+        if (_Head == _Tail) {
+            return false;
+        }
+
+        _Node* newHead = _Tail;
+        _Tail = _Head;
+        do {
+            _ReverseNode(_Head);
+            _Head = _Head->_Previous;
+        } while (_Head != nullptr);
+
+        _Head = newHead;
+        return true;
+    }
+
     // delete the full list.
     void _DeleteFullList() {
 
@@ -232,7 +264,7 @@ private:
         _Head = nullptr;
         _Current = nullptr;
         _Tail = nullptr;
-        _Count = 0;
+        _Size = 0;
     }
 
 public:
@@ -246,7 +278,7 @@ public:
         _Current = Node;
         _Head = Node;
         _Tail = Node;
-        _Count++;
+        _Size++;
     }
 
     clsDblLinkedList() {
@@ -280,7 +312,7 @@ public:
 
     // return the number of nodes in the list.
     int getSize() const {
-        return _Count;
+        return _Size;
     }
 
     // check if the val exists or not.
@@ -322,8 +354,33 @@ public:
         return _DeleteNode(Val);
     }
 
-    void deleteFullList() {
+    void clear() {
         return _DeleteFullList();
+    }
+
+    bool isEmpty() {
+        return _IsListEmpty();
+    }
+
+    bool reverse() {
+        return _Reverse();
+    }
+
+    // test print function.
+    void print() {
+        
+        // check if the list is empty.
+        if (_Head == nullptr) {
+            std::cout << "\n\nEmpty list.\n\n";
+        }
+
+        _Tail->_Next = nullptr;
+        
+        _Node* tempNode = _Head;
+        do {
+            std::cout <<tempNode->_Value << " ";
+            tempNode = tempNode->_Next;
+        } while (tempNode != nullptr);
     }
 
     ~clsDblLinkedList() {

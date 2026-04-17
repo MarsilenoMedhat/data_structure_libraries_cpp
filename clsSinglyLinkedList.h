@@ -4,7 +4,7 @@
 #include <optional>
 
 template <typename T>
-class singlyList {
+class clsSinglyLinkedList {
 
 private:
 
@@ -16,11 +16,11 @@ private:
     _Node* _Head;
     _Node* _Tail;
     _Node* _Current;
-    int _Count = 0;
+    int _Size = 0;
 
     // check if the list is empty or not by checking the head and the tail
     bool _IsListEmpty() {
-        return _Head == nullptr;
+        return _Head == nullptr && _Size == 0;
     }
 
     // check if the node is empty or not
@@ -88,7 +88,7 @@ private:
             newNode = _CreateNewNode(newVal, _Head);
             _Head = newNode;
         }
-        _Count++;
+        _Size++;
         return true;
     }
 
@@ -105,7 +105,7 @@ private:
             _Tail->_Next = newNode;
             _Tail = newNode;
         }
-        _Count++;
+        _Size++;
         return true;
     }
 
@@ -131,7 +131,7 @@ private:
         
         _Node* newNode = _CreateNewNode(newVal, tempNode->_Next);
         tempNode->_Next = newNode;
-        _Count++;
+        _Size++;
         return true;
     }
 
@@ -146,7 +146,7 @@ private:
         // check if the list has one node or not.
         if (_Head == _Tail) {
             _DeleteSingleNodeList();
-            _Count--;
+            _Size--;
             return true;
         }
 
@@ -158,7 +158,7 @@ private:
         _Node* nodeToDelete = _Head;
         _Head = _Head->_Next;
         delete nodeToDelete;
-        _Count--;
+        _Size--;
         return true;
     }
 
@@ -173,7 +173,7 @@ private:
         // check if the list has one node or not.
         if (_Head == _Tail) {
             _DeleteSingleNodeList();
-            _Count--;
+            _Size--;
             return true;
         }
         
@@ -189,7 +189,7 @@ private:
         delete tempCurrent->_Next;
         tempCurrent->_Next = nullptr;
         _Tail = tempCurrent;
-        _Count--;
+        _Size--;
         return true;
     }
 
@@ -230,7 +230,44 @@ private:
 
         preNode->_Next = nodeToDelete->_Next;
         delete nodeToDelete;
-        _Count--;
+        _Size--;
+        return true;
+    }
+
+    // Reverse the list nodes.
+    bool _Reverse() {
+
+        // check if the list is empty.
+        if (_Head == nullptr) {
+            return false;
+        }
+
+        // check if the list has 1 element only.
+        if (_Head->_Next == nullptr) {
+            return false;
+        }
+
+        _Node* tempNode1 = _Head->_Next;
+        _Head->_Next = nullptr;
+        
+        if (tempNode1->_Next == nullptr) {
+            tempNode1->_Next = _Head;
+            _Head = tempNode1;
+            return true;
+        }
+
+        _Node* tempNode2 = tempNode1->_Next;
+        tempNode1->_Next = _Head;
+
+        _Node* tempNode3 = tempNode2->_Next;
+        while (tempNode3 != nullptr) {
+            tempNode2->_Next = tempNode1;
+            tempNode1 = tempNode2;
+            tempNode2 = tempNode3;
+            tempNode3 = tempNode3->_Next;
+        }
+        tempNode2->_Next = tempNode1;
+        _Head = tempNode2;
         return true;
     }
 
@@ -250,12 +287,12 @@ private:
         _Head = nullptr;
         _Current = nullptr;
         _Tail = nullptr;
-        _Count = 0;
+        _Size = 0;
     }
 
     public:
     
-    singlyList(T value) {
+    clsSinglyLinkedList(T value) {
         _Node* newNode = new _Node;
         newNode->_Value = value;
         newNode->_Next = nullptr;
@@ -263,10 +300,10 @@ private:
         _Current = newNode;
         _Head = newNode;
         _Tail = newNode;
-        _Count++;
+        _Size++;
     }
     
-    singlyList() {
+    clsSinglyLinkedList() {
         _Current = nullptr;
         _Head = nullptr;
         _Tail = nullptr;
@@ -298,7 +335,7 @@ private:
 
     // return the number of nodes in the list.
     int getSize () const {
-        return _Count;
+        return _Size;
     }
     
     // check the existance of node by the value.
@@ -314,6 +351,10 @@ private:
             return true;
         }
         return false;
+    }
+
+    bool isEmpty() {
+        return _IsListEmpty();
     }
 
     bool insertAtTheBeginning(T newVal) {
@@ -340,11 +381,15 @@ private:
         return _DeleteNode(deleteVal);
     }
 
-    void deleteFullList() {
+    bool reverse() {
+        return _Reverse();
+    }
+
+    void clear() {
         _DeleteFullList();
     }
 
-    ~singlyList() {
+    ~clsSinglyLinkedList() {
         _DeleteFullList();
     }
 };
