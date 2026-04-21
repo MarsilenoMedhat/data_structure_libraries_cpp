@@ -248,21 +248,6 @@ private:
         return true;
     }
 
-    // get a spesific node in the list.
-    _Node* _GetNode(int index) {
-
-        // check if the position is within the size and positive number ot not
-        if (index > _Size - 1 || index < 0) {
-            return nullptr;
-        }
-
-        _Node* tempNode = _Head;
-        for (int i = 0; i < index; i++) {
-            tempNode = tempNode->_Next;
-        }
-        return tempNode;
-    }
-
     // delete the full list.
     void _DeleteFullList() {
 
@@ -382,15 +367,17 @@ public:
     }
 
     T getNodeValue(int index) {
-        _Node* node = _GetNode(index);
+        _Node* node = _FindNode(index);
         return node->_Value;
     }
 
-    void updateNodeValue(int index, T newVal) {
-        _Node* node = _GetNode(index);
+    bool updateNodeValue(int index, T newVal) {
+        _Node* node = _FindNode(index);
         if (node != nullptr) {
             node->_Value = newVal;
+            return true;
         }
+        return false;
     }
 
     // test print function.
