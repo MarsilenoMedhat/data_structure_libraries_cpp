@@ -115,6 +115,35 @@ private:
         return true;
     }
 
+    bool _InsertAfterByIndex(int index, T newVal) {
+        if (index > _Size + 1 || index > 0) {
+            return false;
+        }
+
+        _Node* tempNode = nullptr;
+        int i = 0;
+
+        if (_Size - index < index) {
+            tempNode = _Tail;
+            i = _Size - 1;
+        }
+        else {
+            tempNode = _Head;
+        }
+
+        while (i != index) {
+            if (i < index) {
+                tempNode = tempNode->_Next;
+                i++;
+            }
+            else {
+                tempNode = tempNode->_Previous;
+                i--;
+            }
+        }
+        return _InsertAfter(tempNode->_Value, newVal);
+    }
+
     // delete the first node of the list.
     bool _DeleteFirstNode() {
 
@@ -287,26 +316,17 @@ public:
         _Tail = nullptr;
     }
 
-    std::optional<T> getCurrent() const {
-        if (_Current == nullptr) {
-            return std::nullopt;
-        }
+    T getCurrent() const {
         return _Current->_Value;
     }
     
     // return head value if it's not empty.
-    std::optional<T> getHead() const {
-        if (_Head == nullptr) {
-            return std::nullopt;
-        }
+    T getHead() const {
         return _Head->_Value;
     }
     
     // return tail value if it's not empty.
-    std::optional<T> getTail() const {
-        if (_Tail == nullptr) {
-            return std::nullopt;
-        }
+    T getTail() const {
         return _Tail->_Value;
     }
 
@@ -340,6 +360,10 @@ public:
 
     bool insertAfter(T previousVal, T newVal) {
         return _InsertAfter(previousVal, newVal);
+    }
+
+    bool insertAfterByIndex(int index, T newVal) {
+        return _InsertAfterByIndex(index, newVal);
     }
 
     bool deleteFirstNode() {
@@ -380,6 +404,10 @@ public:
         return false;
     }
 
+    void deleteFullList() {
+        _DeleteFullList();
+    }
+
     // test print function.
     void print() {
         
@@ -388,11 +416,9 @@ public:
             std::cout << "\n\nEmpty list.\n\n";
         }
 
-        _Tail->_Next = nullptr;
-        
         _Node* tempNode = _Head;
         do {
-            std::cout <<tempNode->_Value << " ";
+            std::cout << tempNode->_Value << " ";
             tempNode = tempNode->_Next;
         } while (tempNode != nullptr);
     }
