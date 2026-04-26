@@ -310,26 +310,17 @@ private:
     }
     
     // return current value if it's not empty.
-    std::optional<T> getCurrent() const {
-        if (_Current == nullptr) {
-            return std::nullopt;
-        }
+    T getCurrent() const {
         return _Current->_Value;
     }
     
     // return head value if it's not empty.
-    std::optional<T> getHead() const {
-        if (_Head == nullptr) {
-            return std::nullopt;
-        }
+    T getHead() const {
         return _Head->_Value;
     }
     
     // return tail value if it's not empty.
-    std::optional<T> getTail() const {
-        if (_Tail == nullptr) {
-            return std::nullopt;
-        }
+    T getTail() const {
         return _Tail->_Value;
     }
 
@@ -387,6 +378,21 @@ private:
 
     void clear() {
         _DeleteFullList();
+    }
+
+    // test print function.
+    void print() {
+        
+        // check if the list is empty.
+        if (_Head == nullptr) {
+            std::cout << "\n\nEmpty list.\n\n";
+        }
+        
+        _Node* tempNode = _Head;
+        do {
+            std::cout <<tempNode->_Value << " ";
+            tempNode = tempNode->_Next;
+        } while (tempNode != nullptr);
     }
 
     ~clsSinglyLinkedList() {
