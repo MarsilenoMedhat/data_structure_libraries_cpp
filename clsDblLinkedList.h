@@ -19,7 +19,7 @@ private:
     unsigned int _Size = 0;
 
     // finds node by the val and return the node once we find it, and return nullptr if it doesn't exist.
-    _Node* _FindNode(T searchVal) const {
+    _Node* _FindNodeByVal(T searchVal) {
 
         // check if the list is empty or not.
         if (_Head == nullptr) {
@@ -36,6 +36,34 @@ private:
         }
 
         return nullptr;
+    }    
+
+    // finds node by the index and return the node once we find it, and return nullptr if it doesn't exist.
+    _Node* _FindNodeByIndex(T index) {
+
+        // check if the list is empty or not.
+        if (_Head == nullptr) {
+            return nullptr;
+        }
+        
+        if (index == 0) {
+            return _Head;
+        }
+
+        if (index == _Size - 1) {
+            return _Tail;
+        }
+
+        _Node* currentNode = _Head;
+
+        for (int currentNodeIndex = 0; currentNodeIndex != index; currentNodeIndex++) {
+            if (currentNodeIndex == _Size - 1) {
+                return nullptr;
+            }
+            currentNode = currentNode->_Next;
+        }
+
+        return currentNode;
     }    
     
     // insert new node at the beginning.
@@ -91,7 +119,7 @@ private:
         }
         
         // find the previous node in the list.
-        _Node* previousNode = _FindNode(previousVal);
+        _Node* previousNode = _FindNodeByVal(previousVal);
         
         // check if the previous node is exist or not
         if (previousNode == nullptr) {
@@ -116,32 +144,41 @@ private:
     }
 
     bool _InsertAfterByIndex(int index, T newVal) {
-        if (index > _Size + 1 || index > 0) {
+
+        if (index > _Size - 1 || index < 0) {
             return false;
         }
 
-        _Node* tempNode = nullptr;
+        _Node* CurrentNode = nullptr;
         int i = 0;
 
         if (_Size - index < index) {
-            tempNode = _Tail;
+            CurrentNode = _Tail;
             i = _Size - 1;
         }
         else {
-            tempNode = _Head;
+            CurrentNode = _Head;
         }
 
         while (i != index) {
             if (i < index) {
-                tempNode = tempNode->_Next;
+                CurrentNode = CurrentNode->_Next;
                 i++;
             }
             else {
-                tempNode = tempNode->_Previous;
+                CurrentNode = CurrentNode->_Previous;
                 i--;
             }
         }
-        return _InsertAfter(tempNode->_Value, newVal);
+        _Node* newNode = new _Node;
+        newNode->_Value = newVal;
+        newNode->_Next = CurrentNode->_Next;
+        newNode->_Previous = CurrentNode;
+        CurrentNode->_Next->_Previous = newNode;
+        CurrentNode->_Next = newNode;
+        _Size++;
+
+        return true;
     }
 
     // delete the first node of the list.
@@ -230,7 +267,7 @@ private:
         }
         else {
             // check the node in the list.
-            nodeToDelete = _FindNode(Val);
+            nodeToDelete = _FindNodeByVal(Val);
         }
 
         // check if the node exists in the list or not.
@@ -337,12 +374,12 @@ public:
 
     // check if the val exists or not.
     bool find(T searchVal) const {
-        return _FindNode(searchVal) != nullptr;
+        return _FindNodeByVal(searchVal) != nullptr;
     }
 
     // check if the value exists or not and set is as the current.
     bool setAsCurrent(T Val) {
-        _Node* tempcurrent = _FindNode(Val);
+        _Node* tempcurrent = _FindNodeByVal(Val);
         if (tempcurrent != nullptr) {
             _Current = tempcurrent;
             return true;
@@ -391,12 +428,12 @@ public:
     }
 
     T getNodeValue(int index) {
-        _Node* node = _FindNode(index);
+        _Node* node = _FindNodeByIndex(index);
         return node->_Value;
     }
 
-    bool updateNodeValue(int index, T newVal) {
-        _Node* node = _FindNode(index);
+    bool updateNodeValue(int val, T newVal) {
+        _Node* node = _FindNodeByVal(val);
         if (node != nullptr) {
             node->_Value = newVal;
             return true;
