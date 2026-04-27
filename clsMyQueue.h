@@ -51,6 +51,10 @@ public:
         return _MyQueue.insertAtBeginning(item);
     }
 
+    bool empty() {
+        return _MyQueue.isEmpty();
+    }
+
     void clear() {
         _MyQueue.deleteFullList();
     }
