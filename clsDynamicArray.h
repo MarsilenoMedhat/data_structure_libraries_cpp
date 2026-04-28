@@ -37,6 +37,41 @@ public:
         return _Size;
     }
 
+    void resize(int newSize) {
+        
+        if (newSize == _Size) {
+            return;
+        }
+
+        if (newSize < 0) {
+            newSize = 0;
+        }
+
+        if (newSize == 0) {
+            delete[] originalArr;
+            originalArr = new T[newSize];
+            return;
+        }
+
+        if (newSize > _Size) {
+            _Size = newSize;
+            return;
+        }
+        else {
+
+            T* tempArr = new T[newSize];
+            
+            for (int currentIndex = 0; currentIndex < newSize; currentIndex++) {
+                tempArr[currentIndex] = originalArr[currentIndex];
+            }
+            delete[] originalArr;
+            originalArr = tempArr;
+            delete[] tempArr;
+            _Size = newSize;
+            return;
+        }
+    }
+
     // print testing function
     void print() {
 
