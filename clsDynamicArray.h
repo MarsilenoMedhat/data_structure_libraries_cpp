@@ -9,6 +9,12 @@ protected:
 
     int _Size = 0;
 
+    void _Swap(T& item1, T& item2) {
+        T tempItem = item1;
+        item1 = item2;
+        item2 = tempItem;
+    }
+
 public:
 
     T* originalArr;
@@ -70,6 +76,27 @@ public:
             _Size = newSize;
             return;
         }
+    }
+
+    void reverse() {
+        int capacity = _Size - 1;
+        for (int currentIndex = 0; currentIndex <= capacity / 2; currentIndex++) {
+            _Swap(originalArr[currentIndex], originalArr[capacity - currentIndex]);
+        }
+    }
+
+    T getItemByIndex(int index) {
+        if (index > _Size - 1 || index < 0) {
+            throw std::out_of_range("Index is out of range.");
+        }
+
+        return originalArr[index];
+    }
+
+    void clear() {
+        delete[] originalArr;
+        _Size = 0;
+        originalArr = new T[_Size];
     }
 
     // print testing function
