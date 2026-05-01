@@ -55,14 +55,11 @@ public:
 
         if (newSize == 0) {
             delete[] originalArr;
+            originalArr == nullptr;
             originalArr = new T[newSize];
             return;
         }
 
-        if (newSize > _Size) {
-            _Size = newSize;
-            return;
-        }
         else {
 
             T* tempArr = new T[newSize];
@@ -72,7 +69,6 @@ public:
             }
             delete[] originalArr;
             originalArr = tempArr;
-            delete[] tempArr;
             _Size = newSize;
             return;
         }
@@ -97,6 +93,26 @@ public:
         delete[] originalArr;
         _Size = 0;
         originalArr = new T[_Size];
+    }
+
+    bool deleteItemByIndex(int index) {
+        if (index > _Size - 1 || index < 0) {
+            return false;
+        }
+
+        T* tempArr = new T[_Size - 1];
+        int tempArrSize = 0;
+
+        for (int currentIndex = 0; currentIndex < _Size; currentIndex++) {
+            if (currentIndex != index) {
+                tempArr[tempArrSize] = originalArr[currentIndex];
+                tempArrSize++;
+            }
+        }
+        _Size--;
+        delete[] originalArr;
+        originalArr = tempArr;
+        return true;
     }
 
     // print testing function
