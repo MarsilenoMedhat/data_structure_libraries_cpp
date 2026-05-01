@@ -123,6 +123,24 @@ public:
         return deleteItemByIndex(_Size - 1);
     }
 
+    int find(T value) {
+        for (int currentIndex = 0; currentIndex < _Size; currentIndex++) {
+            if (originalArr[currentIndex] == value) {
+                return currentIndex;
+            }
+        }
+        return -1;
+    }
+
+    bool deleteByValue(T value) {
+        int index = find(value);
+
+        if (index == -1) {
+            return false;
+        }
+        return deleteItemByIndex(index);
+    }
+
     // print testing function
     void print() {
 
