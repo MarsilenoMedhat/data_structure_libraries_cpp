@@ -115,6 +115,14 @@ public:
         return true;
     }
 
+    bool deleteFirstItem() {
+        return deleteItemByIndex(0);
+    }
+
+    bool deleteLastItem() {
+        return deleteItemByIndex(_Size - 1);
+    }
+
     // print testing function
     void print() {
 
