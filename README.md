@@ -66,15 +66,25 @@ Additional operations: reverse, insertAfter, updateItem
 
 ## Project Structure
 data_structure_libraries_cpp/
+
 │
+
 ├── clsDynamicArray.h           # Dynamic array implementation
+
 ├── clsSinglyLinkedList.h       # Singly linked list
+
 ├── clsDblLinkedList.h          # Doubly linked list
+
 ├── clsCircularLinkedList.h     # Circular linked list
+
 ├── clsStackArr.h               # Array-based stack
+
 ├── clsMyStack.h                # Queue-based stack
+
 ├── clsQueueArr.h               # Array-based queue
+
 ├── clsMyQueue.h                # Linked-list-based queue
+
 └── README.md                   # This file
 
 ## Known Limitations
