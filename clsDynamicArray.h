@@ -164,6 +164,22 @@ public:
         return true;
     }
 
+    bool insertAtBeginning(T newValue) {
+        return insertAt(0, newValue);
+    }
+
+    bool insertAtEnd(T newValue) {
+        return insertAt(_Size, newValue);
+    }
+
+    bool insertAfter(int index, T newValue) {
+        return insertAt(index + 1, newValue);
+    }
+
+    bool insertBefore(int index, T newValue) {
+        return insertAt(index, newValue);
+    }
+
     // print testing function
     void print() {
 
