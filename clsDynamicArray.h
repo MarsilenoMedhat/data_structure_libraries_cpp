@@ -142,25 +142,23 @@ public:
     }
 
     bool insertAt(int index, T newValue) {
-        if (index > _Size - 1 || index < 0) {
+        if (index > _Size || index < 0) {
             return false;
         }
 
-        T* tempArr = new T[_Size + 1];
-        int tempArrSize = 0;
-
-        for (int currentIndex = 0; currentIndex < _Size; currentIndex++) {
-            if (tempArrSize != index) {
-                tempArr[tempArrSize] = originalArr[currentIndex];
-                tempArrSize++;
-            }
-            else {
-                tempArr[tempArrSize] = newValue;
-                currentIndex--;
-                tempArrSize++;
-            }
-        }
         _Size++;
+        T* tempArr = new T[_Size];
+
+        for (int currentIndex = 0; currentIndex < index; currentIndex++) {
+            tempArr[currentIndex] = originalArr[currentIndex];
+        }
+
+        tempArr[index] = newValue;
+
+        for (int currentIndex = index + 1; currentIndex < _Size; currentIndex++) {
+            tempArr[currentIndex] = originalArr[currentIndex - 1];
+        }
+
         delete[] originalArr;
         originalArr = tempArr;
         return true;
