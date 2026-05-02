@@ -105,4 +105,4 @@ Class design and API development
 
 Author
 Marsileno
-## This project built as a practice project to master C++ and data structures fundamentals.
+## This project built as a practice project to master data structures fundamentals.
