@@ -141,6 +141,31 @@ public:
         return deleteItemByIndex(index);
     }
 
+    bool insertAt(int index, T newValue) {
+        if (index > _Size - 1 || index < 0) {
+            return false;
+        }
+
+        T* tempArr = new T[_Size + 1];
+        int tempArrSize = 0;
+
+        for (int currentIndex = 0; currentIndex < _Size; currentIndex++) {
+            if (tempArrSize != index) {
+                tempArr[tempArrSize] = originalArr[currentIndex];
+                tempArrSize++;
+            }
+            else {
+                tempArr[tempArrSize] = newValue;
+                currentIndex--;
+                tempArrSize++;
+            }
+        }
+        _Size++;
+        delete[] originalArr;
+        originalArr = tempArr;
+        return true;
+    }
+
     // print testing function
     void print() {
 
